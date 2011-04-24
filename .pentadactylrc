@@ -1,0 +1,48 @@
+"hg6079 (created: 2011/03/21 00:00:06)
+loadplugins '\.(js|penta)$'
+colorscheme lucius
+group user
+map -modes=n s :gg<Space>
+noremap <Esc> <C-c><Esc>
+set errorbells visualbell
+map -modes=n,v <Esc> -builtin <C-c><Esc>
+map -modes=n,v <F1> -builtin :tab<Space>:help<Space>
+map -modes=n d <Nop>
+map -modes=n a <Nop>
+map -modes=n w <Nop>
+map -modes=n <M-F12> <Nop>
+map -modes=n <M-t> <Nop>
+map -modes=n <M-e> <Nop>
+map -modes=n <M-b> <Nop>
+map -modes=n <M-S-H> <Nop>
+map -modes=n <M-k> <Nop>
+map -modes=n <M-f> <Nop>
+map -modes=n <M-g> <Nop>
+map -modes=n <M-q> <Nop>
+map -modes=n <Leader>d :tabclose<Return>
+map -modes=n <C-g> :pa<Return>
+map -modes=n u :emenu<Space>View.Page<Space>Source<Return>
+map -modes=n J :jumps<Return>
+map -modes=n <M-l> :later<Return>
+map -modes=n <M-d> :delicious<Return>
+map -modes=n R O<Return>
+map -modes=n <M-S-S> :set<Space>um!<Return>
+map -modes=n <F9> :sbclose<Return>
+map -modes=n <M-S-U> :dia<Space>selectionsource<Return>
+map -modes=n <M-S-J> :jstoggle<Return>
+map -modes=n <F2> :sidebar<Space>Tamper<Space>Data<Return>
+noremap ; :
+noremap st :t<Space>google<Space>
+noremap so :o<Space>google<Space>
+set mapleader=,
+group! editor
+autocmd LocationChange .* :set editor='gvim -f -c ''set ft=html spell | call cursor(<line>, <column>)'''
+autocmd LocationChange www.reddit.com,github.com,stackoverflow.com :set editor='gvim -f -c ''set ft=markdown spell | call cursor(<line>, <column>)'''
+autocmd LocationChange ^https?://mail\\..* :set editor='gvim -f -c ''set ft=mail spell | call cursor(<line>, <column>)'''
+autocmd LocationChange ^https?://[^/]+/phpmyadmin/ :set editor='gvim -f -c ''set ft=html | call cursor(<line>, <column>)'''
+group default
+set passkeys+='https://mail\.':<Left><Right><Up><Down><Del>
+set passkeys+='https://facebook\.':<Left><Right><Up><Down><Del>
+
+
+" vim: set ft=vim:
