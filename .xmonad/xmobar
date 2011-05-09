@@ -1,0 +1,25 @@
+-- xmobar config used by Vic Fryzel
+-- Author: Vic Fryzel
+-- http://github.com/vicfryzel/xmonad-config
+-- This is setup for dual 1680x1050 monitors, with the right monitor as primary
+
+Config { bgColor = "#223322"
+      , fgColor = "#eeddee"
+      , lowerOnStart = True
+      , position = Static { xpos = 0 , ypos = 0, width = 1366, height = 19 }
+      , commands = [ Run Weather "SKBO" ["-t","<tempC>c"] 36000
+                   , Run Cpu ["-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0"] 11
+                   , Run MultiCpu ["-t","Cpu:<total0><total1>","-L","3","-H","50","--normal","#CEFFAC","--high","#FFB6B0","-w","5"] 10
+                   , Run Battery ["-L","50","-H","75","--high","green","--normal","yellow", "--low", "red"] 10
+                   , Run Memory ["-t","Mem:<usedratio>%"] 11
+                   , Run Swap [] 11
+                   , Run Network "wlan0" ["-t","Net: <rx>, <tx>","-H","200","-L","10","-h","#FFB6B0","-l","#CEFFAC","-n","#FFFFCC"] 5
+                   , Run Wireless "wlan0" [] 11
+                   , Run Date "%a %b %_d %l:%M" "date" 11
+                   , Run StdinReader
+                   ]
+      , sepChar = "%"
+      , alignSep = "}{"
+      , template = "%StdinReader% }{ %multicpu% <fc=#FFCC00>%memory%</fc> %swap% <fc=#CCFF00>%wlan0wi%</fc> %wlan0% %battery% <fc=#CCFF00>%SKBO%</fc> <fc=#00FFCC>%date%</fc>"
+      }
+
