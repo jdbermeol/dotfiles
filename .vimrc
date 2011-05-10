@@ -5,7 +5,7 @@ source $HOME/.vim/bundle.vim
 source $HOME/.vim/statusline.vim
 source $HOME/.vim/autocommands.vim
 let g:is_posix = 1
-"editor specific
+"editor specificvalue
 set clipboard+=unnamed
 set pastetoggle=<F10>
 set modeline
@@ -45,7 +45,7 @@ syntax enable
 "gui
 if has('gui_running')
   set guioptions-=T  " no toolbar
-  set guifont=Monaco\ 9
+  set guifont=monofur\ 10.5
   set background=dark
   colorscheme molokai
 endif
@@ -86,5 +86,5 @@ set tags+=../tags,../../tags,../../../tags,../../../../tags
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let g:bufExplorerSortBy = "name"
 filetype plugin indent on
-set tags+=~/.vim/riskmi.vim
+set tags+=~/.vim/ctags/riskiq
 source $HOME/.vim/mappings.vim

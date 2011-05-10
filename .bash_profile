@@ -9,3 +9,4 @@ else
 fi
 alias ls='ls --color=auto'
 case "$-" in *i*) byobu-launcher && exit 0; esac;
+~/bin/firefox-sync

@@ -40,6 +40,8 @@ autocmd LocationChange .* :set editor='gvim -f -c ''set ft=html spell | call cur
 autocmd LocationChange www.reddit.com,github.com,stackoverflow.com :set editor='gvim -f -c ''set ft=markdown spell | call cursor(<line>, <column>)'''
 autocmd LocationChange ^https?://mail\\..* :set editor='gvim -f -c ''set ft=mail spell | call cursor(<line>, <column>)'''
 autocmd LocationChange ^https?://[^/]+/phpmyadmin/ :set editor='gvim -f -c ''set ft=html | call cursor(<line>, <column>)'''
+autocmd LocationChange google.com :normal! <C-z>
+autocmd LocationChange facebook.com :normal! <C-z>
 group default
 set passkeys+='https://mail\.':<Left><Right><Up><Down><Del>
 set passkeys+='https://facebook\.':<Left><Right><Up><Down><Del>
