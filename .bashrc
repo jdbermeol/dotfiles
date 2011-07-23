@@ -37,7 +37,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -104,3 +104,14 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 PATH=$PATH:~/bin
 source ~/.bash_profile
+if [ "$PS1" ] ; then
+	if [ -d /sys/fs/cgroup ] ; then
+		cdir=/sys/fs/cgroup
+	else
+		cdir=/dev/cgroup
+	fi
+	mkdir -p -m 0700 $cdir/user/$$ > /dev/null 2>&1
+	/bin/echo $$ > $cdir/user/$$/tasks
+	/bin/echo '1' > $cdir/user/$$/notify_on_release
+	unset -v cdir
+fi

@@ -1,5 +1,3 @@
-au WinEnter * set relativenumber
-au WinLeave * set norelativenumber
 iab phpb $logger = Zend_Registry::get('logger');$logger->log($code,Zend_Log::INFO);Zend_Wildfire_Channel_HttpHeaders::getInstance()->flush();
 iab phpv echo "<hr><pre>";var_dump($a);exit("debug ");
 function! RunPhpcs()
