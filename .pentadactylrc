@@ -1,10 +1,12 @@
 "hg6079 (created: 2011/03/21 00:00:06)
+set guioptions=rbsn
+set cpt=lS
 loadplugins '\.(js|penta)$'
 colorscheme lucius
 group user
 map -modes=n s :gg<Space>
 noremap <Esc> <C-c><Esc>
-set errorbells visualbell
+set visualbell
 map -modes=n,v <Esc> -builtin <C-c><Esc>
 map -modes=n,v <F1> -builtin :tab<Space>:help<Space>
 map -modes=n d <Nop>

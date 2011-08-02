@@ -47,7 +47,7 @@ syntax enable
 set t_Co=256
 colorscheme xoria256
 set fdm=manual
-set synmaxcol=128
+set synmaxcol=200
 set ttyscroll=3
 """
 "gui
