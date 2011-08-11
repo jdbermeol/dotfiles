@@ -13,35 +13,11 @@ endfunction
 set errorformat+=\"%f\"\\,%l\\,%c\\,%t%*[a-zA-Z]\\,\"%m\"
 command! Phpcs execute RunPhpcs()
 "{{{Auto Commands
-au BufWritePost *.php,*.js,*.pthml silent! !ctags -R &
 " Automatically cd into the directory that the file is in
 autocmd BufEnter * execute "cd".escape(expand("%:p:h"), ' ')
 " Remove any trailing whitespace that is in the file
 autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
-au FileType php set omnifunc=phpcomplete#CompletePHP
 "}}}
-
-function! Fancy()
-  if &number
-    if has("gui_running")
-      let &columns=&columns-12
-    endif
-    windo set nonumber foldcolumn=0
-    if exists("+cursorcolumn")
-      set nocursorcolumn nocursorline
-    endif
-  else
-    if has("gui_running")
-      let &columns=&columns+12
-    endif
-    windo set number foldcolumn=4
-    if exists("+cursorcolumn")
-      set cursorline
-    endif
-  endif
-endfunction
-command! -bar Fancy :call Fancy()
-
 function! OpenURL(url)
   if has("win32")
     exe "!start cmd /cstart /b ".a:url.""

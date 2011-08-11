@@ -3,11 +3,11 @@ let maplocalleader = ","
 noremap <silent> <F1> :MiniBufExplorer<CR>
 noremap <silent> <F2> :Project<CR>
 noremap <silent> <F3> :call BufferList()<CR>
-noremap <silent> <F4> :TagbarToggle<cr>
+"noremap <silent> <F4> :TagbarToggle<cr>
 noremap <silent> <F5> :NERDTreeToggle<cr>
 noremap <silent> <F6> :YRToggle<cr>
 noremap <silent> <F7> :GundoToggle<cr>
-noremap <silent> <F8> :!/usr/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+"noremap <silent> <F8> :!/usr/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 snoremap <expr> <C-p> pumvisible() ? '<C-n>' : '<C-p><C-r>=pumvisible() ? "\<lt>Up>" : ""<CR>'
@@ -22,13 +22,13 @@ map <C--> <C-w>-
 inoremap <C-C> <Esc>`^
 nmap <silent> ,/ :nohlsearch<CR>
 vnoremap     <Space> I<Space><Esc>gv
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
+nnoremap <up>    <nop>
+nnoremap <down>  <nop>
+nnoremap <left>  <nop>
 nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
+inoremap <up>    <nop>
+inoremap <down>  <nop>
+inoremap <left>  <nop>
 inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
@@ -49,10 +49,6 @@ map <C-j> <C-w>j
 "PHP mappings
 autocmd FileType php noremap L f$l
 autocmd FileType php noremap H F$l
-autocmd FileType php inoremap <C-F1> <ESC>:call PhpDocSingle()<CR>i
-autocmd FileType php nnoremap <C-F1> :call PhpDocSingle()<CR>
-autocmd FileType php vnoremap <C-F1> :call PhpDocRange()<CR>
 autocmd FileType php noremap <buffer> <C-F5> :call PhpSyntaxCheck()<cr>
 autocmd FileType php inoremap <buffer> <C-F5> <esc>:call PhpSyntaxCheck()<cr>
 " ...
-"autocomplete

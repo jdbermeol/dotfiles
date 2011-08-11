@@ -91,12 +91,12 @@ set incsearch
 "addon specific
 let php_sql_query=1
 let php_htmlInStrings=1
-set tags=tags;/
-set tags+=../tags,../../tags,../../../tags,../../../../tags
-let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+"set tags=tags;/
+"set tags+=../tags,../../tags,../../../tags,../../../../tags
+"let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_jump=1
-let g:syntastic_auto_loc_list=1
+"let g:syntastic_auto_loc_list=1
 filetype plugin indent on
 set tags+=~/.vim/ctags/riskiq
 source $HOME/.vim/mappings.vim
