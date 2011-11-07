@@ -1,6 +1,5 @@
 filetype off
-set rtp+=~/.vim/vundle.git/
-call vundle#rc()
+Bundle 'gmarik/vundle'
 " Bundles:
 Bundle 'BufClose.vim'
 Bundle 'L9'
@@ -12,7 +11,6 @@ Bundle 'git://github.com/othree/javascript-syntax.vim.git'
 Bundle 'git://github.com/pangloss/vim-javascript.git'
 Bundle 'git://github.com/scrooloose/nerdcommenter.git'
 Bundle 'git://github.com/scrooloose/syntastic.git'
-Bundle 'git://github.com/sjbach/lusty.git'
 Bundle 'git://github.com/sjl/gundo.vim.git'
 Bundle 'git://github.com/skammer/vim-css-color.git'
 Bundle 'git://github.com/thinca/vim-poslist.git'

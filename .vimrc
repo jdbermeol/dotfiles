@@ -1,10 +1,14 @@
 set nocompatible
-set rtp+=~/.vim/vundle.git/
-call vundle#rc()
-source $HOME/.vim/bundle.vim
-source $HOME/.vim/statusline.vim
-source $HOME/.vim/autocommands.vim
-let g:is_posix = 1
+let vimhome = expand("<sfile>:h")
+let vimpath = vimhome . "/.vim"
+let vundledir = vimpath . "/bundle"
+let vundledir = expand(vundledir)
+exec("set rtp+=" . vimpath)
+exec("set rtp+=" . vimpath . "/bundle/vundle/")
+call vundle#rc(vundledir)
+exec("source " . vimpath . "/bundle.vim")
+exec("source " . vimpath . "/statusline.vim")
+exec("source " . vimpath . "/autocommands.vim")
 "editor specificvalue
 set grepprg=ack
 set ttyfast
@@ -53,7 +57,7 @@ set ttyscroll=3
 "gui
 if has('gui_running')
     set guioptions-=T  " no toolbar
-    set guifont=monaco\ 9.5
+    set guifont=Monaco:h9
     let g:indent_guides_enable_on_vim_startup = 1
     set list
     set listchars=tab:▸\ ,eol:¬
@@ -65,11 +69,11 @@ endif
 set undolevels=1000
 set updatecount=100
 set backup
-set backupdir=~/.backup
 set undofile
-set undodir=~/.undo
 set undolevels=512
-set directory=/tmp
+exec("set undodir=" . vimpath . "/undo")
+exec("set backupdir=" . vimpath . "/backup")
+exec("set directory=" . vimpath . "/tmp")
 """
 "editting
 set backspace=indent,eol,start
@@ -98,5 +102,4 @@ let g:syntastic_enable_signs=1
 let g:syntastic_auto_jump=1
 "let g:syntastic_auto_loc_list=1
 filetype plugin indent on
-set tags+=~/.vim/ctags/riskiq
-source $HOME/.vim/mappings.vim
+exec("source " . vimpath . "/mappings.vim")
