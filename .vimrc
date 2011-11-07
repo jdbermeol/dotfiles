@@ -5,7 +5,13 @@ let vundledir = vimpath . "/bundle"
 let vundledir = expand(vundledir)
 exec("set rtp+=" . vimpath)
 exec("set rtp+=" . vimpath . "/bundle/vundle/")
-call vundle#rc(vundledir)
+try
+    call vundle#rc(vundledir)
+catch
+    let vundleinstalldir = vimpath . "/bundle/vundle/"
+    let cmd = '!git clone https://github.com/gmarik/vundle.git ' . shellescape(vundleinstalldir)
+    exec(cmd)
+endtry
 exec("source " . vimpath . "/bundle.vim")
 exec("source " . vimpath . "/statusline.vim")
 exec("source " . vimpath . "/autocommands.vim")
