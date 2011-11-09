@@ -15,6 +15,7 @@ endtry
 " Section: Options  {{{1
 " ----------------------
 set clipboard+=unnamed
+set shortmess=ilmnrwxIat
 set autochdir
 set ttyfast
 set hidden
@@ -345,7 +346,7 @@ function! Fancy()
     endif
     windo set number foldcolumn=4
     if exists("+cursorcolumn")
-      set cursorline
+      set cursorline cursorcolumn
     endif
   endif
 endfunction
@@ -536,7 +537,7 @@ if has("gui_running")
 endif
 map <F3> :cnext<CR>
 map <F4> :cc<CR>
-map <F5> :cprev<CR>
+"map <F5> :cprev<CR>
 nmap <silent> <F6> :if &previewwindow<Bar>pclose<Bar>elseif exists(':Gstatus')<Bar>exe 'Gstatus'<Bar>else<Bar>ls<Bar>endif<CR>
 nmap <silent> <F7> :if exists(':Glcd')<Bar>exe 'Glcd'<Bar>elseif exists(':Rlcd')<Bar>exe 'Rlcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
 map <F8> :wa<Bar>make<CR>
@@ -727,8 +728,19 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-ragtag'
 Bundle 'tpope/vim-abolish'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'kevinw/pyflakes'
+Bundle 'klen/python-mode'
+Bundle 'kien/ctrlp.vim'
+Bundle 'groenewege/vim-less'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'scrooloose/nerdtree'
 Bundle 'L9'
+Bundle 'pep8'
+Bundle 'taglist.vim'
+Bundle 'JavaScript-Indent'
 Bundle 'git://github.com/Raimondi/delimitMate.git'
 Bundle 'git://github.com/edsono/vim-matchit.git'
 Bundle 'git://github.com/fholgado/minibufexpl.vim.git'
@@ -789,7 +801,7 @@ if (&t_Co > 2 || has("gui_running")) && has("syntax")
     autocmd VimEnter * if !has("gui_running") | set background=dark notitle noicon | endif
     autocmd GUIEnter * set background=light title icon cmdheight=2 lines=25 columns=80 guioptions-=T
     autocmd GUIEnter * if has("diff") && &diff | set columns=165 | endif
-    autocmd GUIEnter * silent! colorscheme vividchalk
+    autocmd GUIEnter * silent! colorscheme inkpot
     autocmd GUIEnter * call s:initialize_font()
     autocmd GUIEnter * let $GIT_EDITOR = 'false'
     autocmd Syntax css syn sync minlines=50
