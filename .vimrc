@@ -1,16 +1,14 @@
 set nocompatible "Improved
-let vimhome = expand("<sfile>:h")
-let vimpath = vimhome . "/.vim"
-let vundledir = vimpath . "/bundle"
-let vundledir = expand(vundledir)
-exec("set rtp+=" . vimpath)
-exec("set rtp+=" . vimpath . "/bundle/vundle/")
+let VIMPATH = expand("<sfile>:h") . "/.vim"
+exe "set rtp+=" . VIMPATH
+exe "set rtp+=" . VIMPATH . "/bundle/vundle/"
 try
-  call vundle#rc(vundledir)
+  call vundle#rc(expand(VIMPATH . "/bundle"))
 catch
-  let vundleinstalldir = vimpath . "/bundle/vundle/"
-  let cmd = '!git clone https://github.com/gmarik/vundle.git ' . shellescape(vundleinstalldir)
-  exec(cmd)
+  exe '!git clone https://github.com/gmarik/vundle.git ' . shellescape(VIMPATH . "/bundle/vundle/")
+  source <sfile>
+  exe "set rtp+=" . VIMPATH . "/bundle/vundle/"
+  let FIRSTRUN = 1
 endtry
 " Section: Options  {{{1
 " ----------------------
@@ -286,9 +284,9 @@ endfunction
 set undolevels=1000
 set updatecount=100
 set backup
-exec("set undodir=" . vimpath . "/undo")
-exec("set backupdir=" . vimpath . "/backup")
-exec("set directory=" . vimpath . "/tmp")
+exec("set undodir=" . VIMPATH . "/undo")
+exec("set backupdir=" . VIMPATH . "/backup")
+exec("set directory=" . VIMPATH . "/tmp")
 "editting
 set cindent
 set smartindent
@@ -802,5 +800,13 @@ if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 
-" -*- vim -*- vim:set ft=vim et sw=2 sts=2 tw=78:
+if exists("FIRSTRUN")
+  exe "BundleInstall"
+  exe mkdir(VIMPATH . "/undo")
+  exe mkdir(VIMPATH . "/backup")
+  exe mkdir(VIMPATH . "/tmp")
+  unlet FIRSTRUN
+endif
+unlet VIMPATH
 autocmd! bufwritepost .vimrc source ~/.vimrc
+" -*- vim -*- vim:set ft=vim et sw=2 sts=2 tw=78:
