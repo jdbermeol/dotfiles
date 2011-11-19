@@ -101,6 +101,7 @@ if v:version < 602 || $DISPLAY =~ '^localhost:' || $DISPLAY == ''
   set clipboard+=exclude:cons\\\|linux\\\|screen.*
   if $TERM =~ '^screen'
     set mouse=
+    colorscheme molokai
   endif
 endif
 
@@ -111,6 +112,9 @@ endif
 if $TERM =~ '^screen'
   if exists("+ttymouse") && &ttymouse == ''
     set ttymouse=xterm
+  endif
+  if $TERM == 'screen-bce' && &t_Co == 8
+    set t_Co=256
   endif
   if $TERM != 'screen.linux' && &t_Co == 8
     set t_Co=16
