@@ -801,12 +801,11 @@ if filereadable(expand("~/.vimrc.local"))
 endif
 
 if exists("FIRSTRUN")
-  exe "BundleInstall"
   exe mkdir(VIMPATH . "/undo")
   exe mkdir(VIMPATH . "/backup")
   exe mkdir(VIMPATH . "/tmp")
   unlet FIRSTRUN
+  exe "BundleInstall"
 endif
-unlet VIMPATH
 autocmd! bufwritepost .vimrc source ~/.vimrc
 " -*- vim -*- vim:set ft=vim et sw=2 sts=2 tw=78:
