@@ -41,12 +41,12 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -59,11 +59,11 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+    *)
+        ;;
 esac
 
 # enable color support of ls and also add handy aliases
@@ -105,13 +105,13 @@ fi
 PATH=$PATH:~/bin
 source ~/.bash_profile
 if [ "$PS1" ] ; then
-	if [ -d /sys/fs/cgroup ] ; then
-		cdir=/sys/fs/cgroup
-	else
-		cdir=/dev/cgroup
-	fi
-	mkdir -p -m 0700 $cdir/user/$$ > /dev/null 2>&1
-	/bin/echo $$ > $cdir/user/$$/tasks
-	/bin/echo '1' > $cdir/user/$$/notify_on_release
-	unset -v cdir
+    if [ -d /sys/fs/cgroup ] ; then
+        cdir=/sys/fs/cgroup
+    else
+        cdir=/dev/cgroup
+    fi
+    mkdir -p -m 0700 $cdir/user/$$ > /dev/null 2>&1
+    /bin/echo $$ > $cdir/user/$$/tasks
+    /bin/echo '1' > $cdir/user/$$/notify_on_release
+    unset -v cdir
 fi

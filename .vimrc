@@ -85,7 +85,7 @@ set visualbell
 set virtualedit=block
 set wildmenu
 set wildmode=longest:full,full
-set wildignore+=*~,*.aux,tags
+set wildignore+=*~,*.aux,tags,*/.git/*,*/.hg/*,*/.svn/*
 set winaltkeys=no
 
 if v:version >= 600
@@ -730,6 +730,8 @@ Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-abolish'
+Bundle 'groenewege/vim-less'
+Bundle 'kien/ctrlp.vim'
 Bundle 'L9'
 Bundle 'git://github.com/Raimondi/delimitMate.git'
 Bundle 'git://github.com/edsono/vim-matchit.git'
@@ -740,12 +742,10 @@ Bundle 'git://github.com/pangloss/vim-javascript.git'
 Bundle 'git://github.com/scrooloose/nerdcommenter.git'
 Bundle 'git://github.com/scrooloose/syntastic.git'
 Bundle 'git://github.com/sjl/gundo.vim.git'
-Bundle 'git://github.com/skammer/vim-css-color.git'
 Bundle 'git://github.com/thinca/vim-poslist.git'
 Bundle 'git://github.com/thinca/vim-quickrun.git'
 Bundle 'git://github.com/tsaleh/vim-align.git'
 Bundle 'git://github.com/tsaleh/vim-supertab.git'
-Bundle 'git://github.com/vim-scripts/YankRing.vim.git'
 Bundle 'git://github.com/vim-scripts/octave.vim--.git'
 filetype on
 " Section: Visual {{{1
