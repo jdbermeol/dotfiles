@@ -7,7 +7,7 @@ if [ -f "$HOME/.vimrc" ]; then
 fi
 if [ -f "$HOME/.bashrc" ]; then
     echo "Backing up bashrc"
-    cp $HOME/.bashrc $HOME/.vimrc.bak
+    cp $HOME/.bashrc $HOME/.bash.bak
 fi
 echo "source $DIR/.vimrc" > $HOME/.vimrc
 echo "source $DIR/.bashrc" > $HOME/.bashrc
