@@ -101,7 +101,7 @@ if v:version < 602 || $DISPLAY =~ '^localhost:' || $DISPLAY == ''
   set clipboard+=exclude:cons\\\|linux\\\|screen.*
   if $TERM =~ '^screen'
     set mouse=
-    colorscheme molokai
+    colorscheme solarized
   endif
 endif
 
@@ -117,7 +117,7 @@ if $TERM =~ '^screen'
     set t_Co=256
   endif
   if $TERM != 'screen.linux' && &t_Co == 8
-    set t_Co=16
+    set t_Co=256
   endif
 endif
 
@@ -566,6 +566,7 @@ map <C--> <C-w>-
 nnoremap <Leader>c mz"dyy"dp`z
 vnoremap <Leader>c "dymz"dP`z
 nnoremap ; :
+nnoremap : ;
 "PHP mappings
 autocmd FileType php noremap L f$l
 autocmd FileType php noremap H F$l
