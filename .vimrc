@@ -169,7 +169,6 @@ set statusline+=%*
 set statusline+=%{StatuslineTrailingSpaceWarning()}
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 "display a warning if &paste is set
@@ -741,7 +740,6 @@ Bundle 'git://github.com/msanders/snipmate.vim.git'
 Bundle 'git://github.com/othree/javascript-syntax.vim.git'
 Bundle 'git://github.com/pangloss/vim-javascript.git'
 Bundle 'git://github.com/scrooloose/nerdcommenter.git'
-Bundle 'git://github.com/scrooloose/syntastic.git'
 Bundle 'git://github.com/sjl/gundo.vim.git'
 Bundle 'git://github.com/thinca/vim-poslist.git'
 Bundle 'git://github.com/thinca/vim-quickrun.git'
