@@ -135,13 +135,13 @@ elseif has("mac")
   set backupskip+=/private/tmp/*
 endif
 
-hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black
-hi Modified guibg=orange guifg=black ctermbg=lightred ctermfg=black
-
 " Section: Status bar{{{1
 " -----------------------
 "statusline setup
 set statusline=%f       "tail of the filename
+
+hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black
+hi Modified guibg=orange guifg=black ctermbg=lightred ctermfg=black
 
 "display a warning if fileformat isnt unix
 set statusline+=%#warningmsg#
@@ -300,16 +300,6 @@ filetype plugin indent on
 " Section: Commands {{{1
 " -----------------------
 
-if has("eval")
-function! SL(function)
-  if exists('*'.a:function)
-    return call(a:function,[])
-  else
-    return ''
-  endif
-endfunction
-
-command! -bar -nargs=1 -complete=file E :exe "edit ".substitute(<q-args>,'\(.*\):\(\d\+\):\=$','+\2 \1','')
 command! -bar -nargs=0 SudoW :setl nomod|silent exe 'write !sudo tee % >/dev/null'|let &mod = v:shell_error
 command! -bar -nargs=* -bang W :write<bang> <args>
 command! -bar -nargs=0 -bang Scratch :silent edit<bang> \[Scratch]|set buftype=nofile bufhidden=hide noswapfile buflisted
@@ -320,15 +310,6 @@ command! -bar -nargs=* -bang -complete=file Rename :
       \ if v:errmsg == ""|
       \ call delete(expand("#"))|
       \ endif
-
-function! Synname()
-  if exists("*synstack")
-    return map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')
-  else
-    return synIDattr(synID(line('.'),col('.'),1),'name')
-  endif
-endfunction
-
 command! -bar Invert :let &background = (&background=="light"?"dark":"light")
 
 function! Fancy()
@@ -369,87 +350,6 @@ nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
 
-function! Run()
-  let old_makeprg = &makeprg
-  let old_errorformat = &errorformat
-  try
-    let cmd = matchstr(getline(1),'^#!\zs[^ ]*')
-    if exists('b:run_command')
-      exe b:run_command
-    elseif cmd != '' && executable(cmd)
-      wa
-      let &makeprg = matchstr(getline(1),'^#!\zs.*').' %'
-      make
-    elseif &ft == 'mail' || &ft == 'text' || &ft == 'help' || &ft == 'gitcommit'
-      setlocal spell!
-    elseif exists('b:rails_root') && exists(':Rake')
-      wa
-      Rake
-    elseif &ft == 'cucumber'
-      wa
-      compiler cucumber
-      make %
-    elseif &ft == 'ruby'
-      wa
-      if executable(expand('%:p')) || getline(1) =~ '^#!'
-        compiler ruby
-        let &makeprg = 'ruby'
-        make %
-      elseif expand('%:t') =~ '_test\.rb$'
-        compiler rubyunit
-        let &makeprg = 'ruby'
-        make %
-      elseif expand('%:t') =~ '_spec\.rb$'
-        compiler rspec
-        let &makeprg = 'rspec'
-        make %
-      elseif &makeprg ==# 'bundle'
-        make
-      elseif executable('pry') && exists('b:rake_root')
-        execute '!pry -I"'.b:rake_root.'/lib" -r"%:p"'
-      elseif executable('pry')
-        !pry -r"%:p"
-      else
-        !irb -r"%:p"
-      endif
-    elseif &ft == 'html' || &ft == 'xhtml' || &ft == 'php' || &ft == 'aspvbs' || &ft == 'aspperl'
-      wa
-      if !exists('b:url')
-        call OpenURL(expand('%:p'))
-      else
-        call OpenURL(b:url)
-      endif
-    elseif &ft == 'vim'
-      w
-      unlet! g:loaded_{expand('%:t:r')}
-      return 'source %'
-    elseif &ft == 'sql'
-      1,$DBExecRangeSQL
-    elseif expand('%:e') == 'tex'
-      wa
-      exe "normal :!rubber -f %:r && xdvi %:r >/dev/null 2>/dev/null &\<CR>"
-    elseif &ft == 'dot'
-      let &makeprg = 'dotty'
-      make %
-    else
-      wa
-      if &makeprg =~ '%'
-        make
-      else
-        make %
-      endif
-    endif
-    return ''
-  finally
-    let &makeprg = old_makeprg
-    let &errorformat = old_errorformat
-  endtry
-endfunction
-command! -bar Run :execute Run()
-
-  runtime! plugin/matchit.vim
-  runtime! macros/matchit.vim
-endif
 
 " Section: Mappings {{{1
 " ----------------------
@@ -541,7 +441,6 @@ map <F5> :cprev<CR>
 nmap <silent> <F6> :if &previewwindow<Bar>pclose<Bar>elseif exists(':Gstatus')<Bar>exe 'Gstatus'<Bar>else<Bar>ls<Bar>endif<CR>
 nmap <silent> <F7> :if exists(':Glcd')<Bar>exe 'Glcd'<Bar>elseif exists(':Rlcd')<Bar>exe 'Rlcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
 map <F8> :wa<Bar>make<CR>
-map <F9> :Run<CR>
 map <silent> <F10> :let tagsfile = tempname()\|silent exe "!ctags -f ".tagsfile." \"%\""\|let &l:tags .= "," . tagsfile\|unlet tagsfile<CR>
 map <silent> <F11> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
 map <C-F4> :bdelete<CR>
