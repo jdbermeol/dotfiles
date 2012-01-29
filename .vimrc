@@ -1,93 +1,112 @@
-set nocompatible "Improved
-let VIMPATH = expand("<sfile>:h") . "/.vim"
-exe "set rtp+=" . VIMPATH
-exe "set rtp+=" . VIMPATH . "/bundle/vundle/"
+" turns off compatibility with old vi
+set nocompatible
+" configuring vim on first run
+" Section: Startup{{{1
+" --------------------
+" Configures vim path to load files where the .vimrc is locate, it also checks
+" if vim is running for first time and tries to set up plugins using gmarik's
+" bundle plugin for vim.
+
+" `vim_path` current .vim dir on script directory
+let b:vim_path = expand("<sfile>:h") . "/.vim"
+exe "set rtp+=" . b:vim_path
+exe "set rtp+=" . b:vim_path . "/bundle/vundle/"
 try
-  call vundle#rc(expand(VIMPATH . "/bundle"))
+  call vundle#rc(expand(b:vim_path . "/bundle"))
 catch
-  exe '!git clone https://github.com/gmarik/vundle.git ' . shellescape(VIMPATH . "/bundle/vundle/")
-  source <sfile>
-  exe "set rtp+=" . VIMPATH . "/bundle/vundle/"
-  let FIRSTRUN = 1
+  try
+    exe '!git clone https://github.com/gmarik/vundle.git ' . shellescape(b:vim_path . "/bundle/vundle/")
+    source <sfile>
+    exe "set rtp+=" . b:vim_path . "/bundle/vundle/"
+  catch
+    let b:has_bundle = 0;
+  endtry
 endtry
 " Section: Options  {{{1
 " ----------------------
-set clipboard+=unnamed
-set autochdir
-set ttyfast
-set hidden
-set history=1000
+"  Vim configurable Options
+"
+
+
+" editting
+set autochdir          " Changes dir to current editing
+set cindent            " ident with spaces
+set smarttab           " Insert spaces when indenting with tab
+set smartindent        " Smart ident depending on the language
+set autoindent         " Autoindent on new line
+" search
+set hlsearch           " Highlights search
+set incsearch          " Shows search matches as you type
+set showmatch          " Shows matching Bracket, parenthesis, etc...
+set smartcase          " Matchs uppercase on search
+set matchtime=5        " Time to show matching Bracket
+" other options
 set undolevels=1000
-set noerrorbells
-set title
-set encoding=utf-8
-set showmode
-set colorcolumn=80
-set mouse=a
-syntax enable
-set synmaxcol=200
-set ttyscroll=3
-set autoindent
-set autowrite
-set backspace=2
-set backupskip+=*.tmp,crontab.*
-if has("balloon_eval") && has("unix")
-  set balloon_eval
-endif
+set updatecount=100
+set backup
+exec("set undodir=" . b:vim_path . "/undo")
+exec("set backupdir=" . b:vim_path . "/backup")
+exec("set directory=" . b:vim_path . "/tmp")
+filetype plugin indent on
+set clipboard+=unnamed " Yanking to system clipboard
+set ttyfast            " Faster drawing
+set hidden             " Lets you send buffers to backgrund whitout saving them
+set history=1000       " Size of history file
+set undolevels=1000    " Size of undo history file
+set noerrorbells       " No beeps on error
+set title              " Set the title in GUI/screen mode
+set encoding=utf-8     " Utf-8
+set showmode           " Shows current mode under the status bar
+set colorcolumn=80     " Show a column marker for standard 80 chars on coding
+set mouse=a            " Enables mouse on all modes
+syntax enable          " Syntax highlighting
+set synmaxcol=400      " Disables highlighting on long lines for speed
+set ttyscroll=3        " Faster redrawing
+set autowrite          " Autowrite on some commands (make)
+set backspace=2        " Makes backspace powerful
+set splitbelow         " Split windows at bottom
+set suffixes+=.dvi     " Lower priority in wildcards
+set timeoutlen=1200    " A little bit more time for macros
+set ttimeoutlen=50     " Make Esc work faster
+set mousemodel=popup   " Right click popups a menu
+set scrolloff=1        " Minimum number of lines to show up/dow of current line
+set showcmd            " Show commands as you type them
+set complete-=i        " Smart complete
+set laststatus=2       " Always show  status lines
+set lazyredraw         " no redraw on macros execution
+set grepprg=ack        " Ack is more powerful
+set visualbell         " Screen titles on error
+set wildmenu           " enhanced completion on command line
+set winaltkeys=no      " Disables alt for showing the app menu
+set virtualedit=block  " Lets you select on visual mode past the line
+set fileformats=unix,dos,mac    " Fileformat according to file
+set backupskip+=*.tmp,crontab.* " Don't backup those files
+set wildmode=longest:full,full  " All options to command line completion
+set wildignore+=*~,*.aux,tags,*/.git/*,*/.hg/*,*/.svn/* " ignore those files
+
 if exists("&breakindent")
   set breakindent showbreak=+++
 elseif has("gui_running")
   set showbreak=\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +++
 endif
-set cmdheight=2
-set complete-=i
-set display=lastline
 if has("eval")
   let &fileencodings = substitute(&fileencodings,"latin1","cp1252","")
-endif
-set fileformats=unix,dos,mac
-set grepprg=ack
-if has("eval")
   let &highlight = substitute(&highlight,'NonText','SpecialKey','g')
 endif
-set incsearch
-set laststatus=2
-set lazyredraw
 if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
   let &listchars = "tab:\u21e5\u00b7,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u26ad"
 else
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<
 endif
-set modelines=5
-set mousemodel=popup
-set pastetoggle=<F2>
-set scrolloff=1
-set showcmd
-set showmatch
-set smartcase
-set smarttab
 if exists("+spelllang")
   set spelllang=en_us
 endif
-set spellfile=~/.vim/spell/en.utf-8.add
-set splitbelow " Split windows at bottom
-set suffixes+=.dvi " Lower priority in wildcards
-set tags+=../tags,../../tags,../../../tags,../../../../tags
-set timeoutlen=1200 " A little bit more time for macros
-set ttimeoutlen=50 " Make Esc work faster
 if exists('+undofile')
   set undofile
 endif
 if v:version >= 700
   set viminfo=!,'20,<50,s10,h
 endif
-set visualbell
-set virtualedit=block
-set wildmenu
-set wildmode=longest:full,full
-set wildignore+=*~,*.aux,tags,*/.git/*,*/.hg/*,*/.svn/*
-set winaltkeys=no
-
 if v:version >= 600
   set autoread
   set foldmethod=marker
@@ -284,19 +303,6 @@ function! s:Median(nums)
 endfunction
 " Plugin Settings {{{2
 
-set undolevels=1000
-set updatecount=100
-set backup
-exec("set undodir=" . VIMPATH . "/undo")
-exec("set backupdir=" . VIMPATH . "/backup")
-exec("set directory=" . VIMPATH . "/tmp")
-"editting
-set cindent
-set smartindent
-set matchtime=5
-set ignorecase
-set hlsearch
-filetype plugin indent on
 " Section: Commands {{{1
 " -----------------------
 
@@ -426,10 +432,6 @@ if !has("gui_running")
   map! <F31> <M-d>
 endif
 
-if has("gui_mac")
-  noremap <C-6> <C-^>
-endif
-
 map <F1> <Esc>
 map! <F1> <Esc>
 if has("gui_running")
@@ -441,7 +443,6 @@ map <F5> :cprev<CR>
 nmap <silent> <F6> :if &previewwindow<Bar>pclose<Bar>elseif exists(':Gstatus')<Bar>exe 'Gstatus'<Bar>else<Bar>ls<Bar>endif<CR>
 nmap <silent> <F7> :if exists(':Glcd')<Bar>exe 'Glcd'<Bar>elseif exists(':Rlcd')<Bar>exe 'Rlcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
 map <F8> :wa<Bar>make<CR>
-map <silent> <F10> :let tagsfile = tempname()\|silent exe "!ctags -f ".tagsfile." \"%\""\|let &l:tags .= "," . tagsfile\|unlet tagsfile<CR>
 map <silent> <F11> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
 map <C-F4> :bdelete<CR>
 noremap <S-Insert> <MiddleMouse>
@@ -651,6 +652,7 @@ filetype on
 
 " Switch syntax highlighting on, when the terminal has colors
 if (&t_Co > 2 || has("gui_running")) && has("syntax")
+  colorscheme molokai
   function! s:initialize_font()
     if exists("&guifont")
       if has("mac")
@@ -660,7 +662,7 @@ if (&t_Co > 2 || has("gui_running")) && has("syntax")
           set guifont=bitstream\ vera\ sans\ mono\ 11
         endif
       elseif has("win32")
-        set guifont=Consolas:h11,Courier\ New:h10
+        set guifont=Dejavu_Sans_Mono:h11,Courier\ New:h10
       endif
     endif
   endfunction
@@ -675,13 +677,6 @@ if (&t_Co > 2 || has("gui_running")) && has("syntax")
     syntax on
   endif
   set list
-  if !exists('g:colors_name')
-    if filereadable(expand("~/.vim/colors/tim.vim"))
-      colorscheme tim
-    elseif filereadable(expand("~/.vim/colors/tpope.vim"))
-      colorscheme tpope
-    endif
-  endif
 
   augroup RCVisual
     autocmd!
@@ -689,7 +684,7 @@ if (&t_Co > 2 || has("gui_running")) && has("syntax")
     autocmd VimEnter * if !has("gui_running") | set background=dark notitle noicon | endif
     autocmd GUIEnter * set background=light title icon cmdheight=2 lines=25 columns=80 guioptions-=T
     autocmd GUIEnter * if has("diff") && &diff | set columns=165 | endif
-    autocmd GUIEnter * silent! colorscheme vividchalk
+    autocmd GUIEnter * silent! colorscheme molokai
     autocmd GUIEnter * call s:initialize_font()
     autocmd GUIEnter * let $GIT_EDITOR = 'false'
     autocmd Syntax css syn sync minlines=50
@@ -701,11 +696,10 @@ endif
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
-
 if exists("FIRSTRUN")
-  exe mkdir(VIMPATH . "/undo")
-  exe mkdir(VIMPATH . "/backup")
-  exe mkdir(VIMPATH . "/tmp")
+  exe mkdir(b:vim_path . "/undo")
+  exe mkdir(b:vim_path . "/backup")
+  exe mkdir(b:vim_path . "/tmp")
   unlet FIRSTRUN
   exe "BundleInstall"
 endif
