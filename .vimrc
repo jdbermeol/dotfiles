@@ -305,19 +305,27 @@ endfunction
 
 " Section: Commands {{{1
 " -----------------------
+" Commands for vim command Line
+"
 
+" `:SudoW`      prompts sudo to write a file  if vim is not executed as sudo
 command! -bar -nargs=0 SudoW :setl nomod|silent exe 'write !sudo tee % >/dev/null'|let &mod = v:shell_error
+" `:W`          fixes W typo
 command! -bar -nargs=* -bang W :write<bang> <args>
+" `:Scratch`    opens a scratch buffer
 command! -bar -nargs=0 -bang Scratch :silent edit<bang> \[Scratch]|set buftype=nofile bufhidden=hide noswapfile buflisted
+" `:RFC Number` opens the specified RFC number
 command! -bar -count=0 RFC :e http://www.ietf.org/rfc/rfc<count>.txt|setl ro noma
+" `:Rename xxx` renames current file to xxx
 command! -bar -nargs=* -bang -complete=file Rename :
       \ let v:errmsg = ""|
       \ saveas<bang> <args>|
       \ if v:errmsg == ""|
       \ call delete(expand("#"))|
       \ endif
+" `:Invert`     toggles the background dark/light
 command! -bar Invert :let &background = (&background=="light"?"dark":"light")
-
+" `:Fancy`      shows ruler and foldcolumn
 function! Fancy()
   if &number
     if has("gui_running")
@@ -338,9 +346,9 @@ function! Fancy()
   endif
 endfunction
 command! -bar Fancy :call Fancy()
-
+" `:OpenURL string` opens string url in a browser
 function! OpenURL(url)
-  if has("win32")
+  if has("win32") || has("win64")
     exe "!start cmd /cstart /b ".a:url.""
   elseif $DISPLAY !~ '^\w'
     exe "silent !sensible-browser \"".a:url."\""
@@ -350,10 +358,13 @@ function! OpenURL(url)
   redraw!
 endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
-" open URL under cursor in browser
+" `gb` opens url/word under cursor on browser
 nnoremap gb :OpenURL <cfile><CR>
+" `gA` opens url/word under cursor on Answers dictionary
 nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
+" `gG` opens url/word under cursor on google
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
+" `gW` opens url/word under cursor on wikipedia
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
 
 
@@ -367,20 +378,24 @@ let maplocalleader = ","
 nnoremap Q :<C-U>q<CR>
 nnoremap Y y$
 if exists(":hohls")
-  nnoremap <silent> <C-L> :nohls<CR><C-L>
-  nmap <silent> ,/ :nohls<CR>
+  nmap <silent> <leader>/ :nohls<CR>
 endif
 inoremap <C-C> <Esc>`^
 nnoremap j gj
 nnoremap k gk
 inoremap jj <ESC>
+" split the lines from cursor to the EOL, sending the second part to the line
+" to the top of the current line
 nnoremap zS r<CR>ddkP=j
+" indents on paste
 nnoremap =p m`=ap``
 nnoremap == ==
 vnoremap <M-<> <gv
 vnoremap <M->> >gv
 vnoremap <Space> I<Space><Esc>gv
-
+" inserts comment at the current line with vim settings
+" ex:
+" " -*- vim -*- vim:set ft=vim et sw=2 sts=2:
 inoremap <C-X>^ <C-R>=substitute(&commentstring,' \=%s\>'," -*- ".&ft." -*- vim:set ft=".&ft." ".(&et?"et":"noet")." sw=".&sw." sts=".&sts.':','')<CR>
 
 " keys on insert mode and command mode
