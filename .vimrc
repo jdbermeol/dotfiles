@@ -18,6 +18,7 @@ catch
     exe '!git clone https://github.com/gmarik/vundle.git ' . shellescape(b:vim_path . "/bundle/vundle/")
     source <sfile>
     exe "set rtp+=" . b:vim_path . "/bundle/vundle/"
+    exe "BundleInstall"
   catch
     let b:has_bundle = 0;
   endtry
@@ -710,13 +711,6 @@ endif
 " }}}1
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
-endif
-if exists("FIRSTRUN")
-  exe mkdir(b:vim_path . "/undo")
-  exe mkdir(b:vim_path . "/backup")
-  exe mkdir(b:vim_path . "/tmp")
-  unlet FIRSTRUN
-  exe "BundleInstall"
 endif
 autocmd! bufwritepost .vimrc source ~/.vimrc
 " -*- vim -*- vim:set ft=vim et sw=2 sts=2 tw=78:
