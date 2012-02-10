@@ -733,6 +733,7 @@ Bundle 'tpope/vim-abolish'
 Bundle 'groenewege/vim-less'
 Bundle 'kien/ctrlp.vim'
 Bundle 'L9'
+Bundle 'digitaltoad/vim-jade'
 Bundle 'git://github.com/Raimondi/delimitMate.git'
 Bundle 'git://github.com/edsono/vim-matchit.git'
 Bundle 'git://github.com/fholgado/minibufexpl.vim.git'
@@ -746,6 +747,7 @@ Bundle 'git://github.com/thinca/vim-quickrun.git'
 Bundle 'git://github.com/tsaleh/vim-align.git'
 Bundle 'git://github.com/tsaleh/vim-supertab.git'
 Bundle 'git://github.com/vim-scripts/octave.vim--.git'
+Bundle 'nginx.vim'
 filetype on
 " Section: Visual {{{1
 " --------------------
