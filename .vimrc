@@ -1,93 +1,113 @@
-set nocompatible "Improved
-let VIMPATH = expand("<sfile>:h") . "/.vim"
-exe "set rtp+=" . VIMPATH
-exe "set rtp+=" . VIMPATH . "/bundle/vundle/"
+" turns off compatibility with old vi
+set nocompatible
+" configuring vim on first run
+" Section: Startup{{{1
+" --------------------
+" Configures vim path to load files where the .vimrc is locate, it also checks
+" if vim is running for first time and tries to set up plugins using gmarik's
+" bundle plugin for vim.
+
+" `vim_path` current .vim dir on script directory
+let b:vim_path = expand("<sfile>:h") . "/.vim"
+exe "set rtp+=" . b:vim_path
+exe "set rtp+=" . b:vim_path . "/bundle/vundle/"
 try
-  call vundle#rc(expand(VIMPATH . "/bundle"))
+  call vundle#rc(expand(b:vim_path . "/bundle"))
 catch
-  exe '!git clone https://github.com/gmarik/vundle.git ' . shellescape(VIMPATH . "/bundle/vundle/")
-  source <sfile>
-  exe "set rtp+=" . VIMPATH . "/bundle/vundle/"
-  let FIRSTRUN = 1
+  try
+    exe '!git clone https://github.com/gmarik/vundle.git ' . shellescape(b:vim_path . "/bundle/vundle/")
+    source <sfile>
+    exe "set rtp+=" . b:vim_path . "/bundle/vundle/"
+    exe "BundleInstall"
+  catch
+    let b:has_bundle = 0;
+  endtry
 endtry
 " Section: Options  {{{1
 " ----------------------
-set clipboard+=unnamed
-set autochdir
-set ttyfast
-set hidden
-set history=1000
+"  Vim configurable Options
+"
+
+
+" editting
+set autochdir          " Changes dir to current editing
+set cindent            " ident with spaces
+set smarttab           " Insert spaces when indenting with tab
+set smartindent        " Smart ident depending on the language
+set autoindent         " Autoindent on new line
+" search
+set hlsearch           " Highlights search
+set incsearch          " Shows search matches as you type
+set showmatch          " Shows matching Bracket, parenthesis, etc...
+set smartcase          " Matchs uppercase on search
+set matchtime=5        " Time to show matching Bracket
+" other options
 set undolevels=1000
-set noerrorbells
-set title
-set encoding=utf-8
-set showmode
-set colorcolumn=80
-set mouse=a
-syntax enable
-set synmaxcol=200
-set ttyscroll=3
-set autoindent
-set autowrite
-set backspace=2
-set backupskip+=*.tmp,crontab.*
-if has("balloon_eval") && has("unix")
-  set balloon_eval
-endif
+set updatecount=100
+set backup
+exec("set undodir=" . b:vim_path . "/undo")
+exec("set backupdir=" . b:vim_path . "/backup")
+exec("set directory=" . b:vim_path . "/tmp")
+filetype plugin indent on
+set clipboard+=unnamed " Yanking to system clipboard
+set ttyfast            " Faster drawing
+set hidden             " Lets you send buffers to backgrund whitout saving them
+set history=1000       " Size of history file
+set undolevels=1000    " Size of undo history file
+set noerrorbells       " No beeps on error
+set title              " Set the title in GUI/screen mode
+set encoding=utf-8     " Utf-8
+set showmode           " Shows current mode under the status bar
+set colorcolumn=80     " Show a column marker for standard 80 chars on coding
+set mouse=a            " Enables mouse on all modes
+syntax enable          " Syntax highlighting
+set synmaxcol=400      " Disables highlighting on long lines for speed
+set ttyscroll=3        " Faster redrawing
+set autowrite          " Autowrite on some commands (make)
+set backspace=2        " Makes backspace powerful
+set splitbelow         " Split windows at bottom
+set suffixes+=.dvi     " Lower priority in wildcards
+set timeoutlen=1200    " A little bit more time for macros
+set ttimeoutlen=50     " Make Esc work faster
+set mousemodel=popup   " Right click popups a menu
+set scrolloff=1        " Minimum number of lines to show up/dow of current line
+set showcmd            " Show commands as you type them
+set complete-=i        " Smart complete
+set laststatus=2       " Always show  status lines
+set lazyredraw         " no redraw on macros execution
+set grepprg=ack        " Ack is more powerful
+set visualbell         " Screen titles on error
+set wildmenu           " enhanced completion on command line
+set winaltkeys=no      " Disables alt for showing the app menu
+set virtualedit=block  " Lets you select on visual mode past the line
+set fileformats=unix,dos,mac    " Fileformat according to file
+set backupskip+=*.tmp,crontab.* " Don't backup those files
+set wildmode=longest:full,full  " All options to command line completion
+set wildignore+=*~,*.aux,tags,*/.git/*,*/.hg/*,*/.svn/* " ignore those files
+
 if exists("&breakindent")
   set breakindent showbreak=+++
 elseif has("gui_running")
   set showbreak=\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +++
 endif
-set cmdheight=2
-set complete-=i
-set display=lastline
 if has("eval")
   let &fileencodings = substitute(&fileencodings,"latin1","cp1252","")
-endif
-set fileformats=unix,dos,mac
-set grepprg=ack
-if has("eval")
   let &highlight = substitute(&highlight,'NonText','SpecialKey','g')
 endif
-set incsearch
-set laststatus=2
-set lazyredraw
 if (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8') && version >= 700
   let &listchars = "tab:\u21e5\u00b7,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u26ad"
 else
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<
 endif
-set modelines=5
-set mousemodel=popup
-set pastetoggle=<F2>
-set scrolloff=1
-set showcmd
-set showmatch
-set smartcase
-set smarttab
 if exists("+spelllang")
   set spelllang=en_us
 endif
-set spellfile=~/.vim/spell/en.utf-8.add
-set splitbelow " Split windows at bottom
-set suffixes+=.dvi " Lower priority in wildcards
-set tags+=../tags,../../tags,../../../tags,../../../../tags
-set timeoutlen=1200 " A little bit more time for macros
-set ttimeoutlen=50 " Make Esc work faster
 if exists('+undofile')
   set undofile
 endif
 if v:version >= 700
   set viminfo=!,'20,<50,s10,h
 endif
-set visualbell
-set virtualedit=block
-set wildmenu
-set wildmode=longest:full,full
-set wildignore+=*~,*.aux,tags,*/.git/*,*/.hg/*,*/.svn/*
-set winaltkeys=no
-
 if v:version >= 600
   set autoread
   set foldmethod=marker
@@ -135,202 +155,29 @@ elseif has("mac")
   set backupskip+=/private/tmp/*
 endif
 
-hi StatColor guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black
-hi Modified guibg=orange guifg=black ctermbg=lightred ctermfg=black
-
-" Section: Status bar{{{1
-" -----------------------
-"statusline setup
-set statusline=%f       "tail of the filename
-
-"display a warning if fileformat isnt unix
-set statusline+=%#warningmsg#
-set statusline+=%{&ff!='unix'?'['.&ff.']':''}
-set statusline+=%*
-
-"display a warning if file encoding isnt utf-8
-set statusline+=%#warningmsg#
-set statusline+=%{(&fenc!='utf-8'&&&fenc!='')?'['.&fenc.']':''}
-set statusline+=%*
-
-set statusline+=%h      "help file flag
-set statusline+=%y      "filetype
-set statusline+=%r      "read only flag
-set statusline+=%m      "modified flag
-
-" display current git branch
-set statusline+=%{fugitive#statusline()}
-
-"display a warning if &et is wrong, or we have mixed-indenting
-set statusline+=%#error#
-set statusline+=%{StatuslineTabWarning()}
-set statusline+=%*
-
-set statusline+=%{StatuslineTrailingSpaceWarning()}
-
-set statusline+=%#warningmsg#
-set statusline+=%*
-
-"display a warning if &paste is set
-set statusline+=%#error#
-set statusline+=%{&paste?'[paste]':''}
-set statusline+=%*
-
-set statusline+=%=      "left/right separator
-set statusline+=%{StatuslineCurrentHighlight()}\ \ "current highlight
-set statusline+=%c,     "cursor column
-set statusline+=%l/%L   "cursor line/total lines
-set statusline+=\ %P    "percent through file
-set laststatus=2        " Always show status line
-
-"return the syntax highlight group under the cursor ''
-function! StatuslineCurrentHighlight()
-    let name = synIDattr(synID(line('.'),col('.'),1),'name')
-    if name == ''
-        return ''
-    else
-        return '[' . name . ']'
-    endif
-endfunction
-
-"recalculate the trailing whitespace warning when idle, and after saving
-autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
-
-"return '[\s]' if trailing white space is detected
-"return '' otherwise
-function! StatuslineTrailingSpaceWarning()
-    if !exists("b:statusline_trailing_space_warning")
-        if search('\s\+$', 'nw') != 0
-            let b:statusline_trailing_space_warning = '[\s]'
-        else
-            let b:statusline_trailing_space_warning = ''
-        endif
-    endif
-    return b:statusline_trailing_space_warning
-endfunction
-
-"return '[&et]' if &et is set wrong
-"return '[mixed-indenting]' if spaces and tabs are used to indent
-"return an empty string if everything is fine
-function! StatuslineTabWarning()
-    if !exists("b:statusline_tab_warning")
-        let tabs = search('^\t', 'nw') != 0
-        let spaces = search('^ ', 'nw') != 0
-
-        if tabs && spaces
-            let b:statusline_tab_warning =  '[mixed-indenting]'
-        elseif (spaces && !&et) || (tabs && &et)
-            let b:statusline_tab_warning = '[&et]'
-        else
-            let b:statusline_tab_warning = ''
-        endif
-    endif
-    return b:statusline_tab_warning
-endfunction
-
-"return a warning for "long lines" where "long" is either &textwidth or 80 (if
-"no &textwidth is set)
-"
-"return '' if no long lines
-"return '[#x,my,$z] if long lines are found, were x is the number of long
-"lines, y is the median length of the long lines and z is the length of the
-"longest line
-function! StatuslineLongLineWarning()
-    if !exists("b:statusline_long_line_warning")
-        let long_line_lens = s:LongLines()
-
-        if len(long_line_lens) > 0
-            let b:statusline_long_line_warning = "[" .
-                        \ '#' . len(long_line_lens) . "," .
-                        \ 'm' . s:Median(long_line_lens) . "," .
-                        \ '$' . max(long_line_lens) . "]"
-        else
-            let b:statusline_long_line_warning = ""
-        endif
-    endif
-    return b:statusline_long_line_warning
-endfunction
-
-"return a list containing the lengths of the long lines in this buffer
-function! s:LongLines()
-    let threshold = (&tw ? &tw : 80)
-    let spaces = repeat(" ", &ts)
-
-    let long_line_lens = []
-
-    let i = 1
-    while i <= line("$")
-        let len = strlen(substitute(getline(i), '\t', spaces, 'g'))
-        if len > threshold
-            call add(long_line_lens, len)
-        endif
-        let i += 1
-    endwhile
-
-    return long_line_lens
-endfunction
-
-"find the median of the given array of numbers
-function! s:Median(nums)
-    let nums = sort(a:nums)
-    let l = len(nums)
-
-    if l % 2 == 1
-        let i = (l-1) / 2
-        return nums[i]
-    else
-        return (nums[l/2] + nums[(l/2)-1]) / 2
-    endif
-endfunction
-" Plugin Settings {{{2
-
-set undolevels=1000
-set updatecount=100
-set backup
-exec("set undodir=" . VIMPATH . "/undo")
-exec("set backupdir=" . VIMPATH . "/backup")
-exec("set directory=" . VIMPATH . "/tmp")
-"editting
-set cindent
-set smartindent
-set matchtime=5
-set ignorecase
-set hlsearch
-filetype plugin indent on
 " Section: Commands {{{1
 " -----------------------
+" Commands for vim command Line
+"
 
-if has("eval")
-function! SL(function)
-  if exists('*'.a:function)
-    return call(a:function,[])
-  else
-    return ''
-  endif
-endfunction
-
-command! -bar -nargs=1 -complete=file E :exe "edit ".substitute(<q-args>,'\(.*\):\(\d\+\):\=$','+\2 \1','')
+" `:SudoW`      prompts sudo to write a file  if vim is not executed as sudo
 command! -bar -nargs=0 SudoW :setl nomod|silent exe 'write !sudo tee % >/dev/null'|let &mod = v:shell_error
+" `:W`          fixes W typo
 command! -bar -nargs=* -bang W :write<bang> <args>
+" `:Scratch`    opens a scratch buffer
 command! -bar -nargs=0 -bang Scratch :silent edit<bang> \[Scratch]|set buftype=nofile bufhidden=hide noswapfile buflisted
+" `:RFC Number` opens the specified RFC number
 command! -bar -count=0 RFC :e http://www.ietf.org/rfc/rfc<count>.txt|setl ro noma
+" `:Rename xxx` renames current file to xxx
 command! -bar -nargs=* -bang -complete=file Rename :
       \ let v:errmsg = ""|
       \ saveas<bang> <args>|
       \ if v:errmsg == ""|
       \ call delete(expand("#"))|
       \ endif
-
-function! Synname()
-  if exists("*synstack")
-    return map(synstack(line('.'),col('.')),'synIDattr(v:val,"name")')
-  else
-    return synIDattr(synID(line('.'),col('.'),1),'name')
-  endif
-endfunction
-
+" `:Invert`     toggles the background dark/light
 command! -bar Invert :let &background = (&background=="light"?"dark":"light")
-
+" `:Fancy`      shows ruler and foldcolumn
 function! Fancy()
   if &number
     if has("gui_running")
@@ -351,9 +198,9 @@ function! Fancy()
   endif
 endfunction
 command! -bar Fancy :call Fancy()
-
+" `:OpenURL string` opens string url in a browser
 function! OpenURL(url)
-  if has("win32")
+  if has("win32") || has("win64")
     exe "!start cmd /cstart /b ".a:url.""
   elseif $DISPLAY !~ '^\w'
     exe "silent !sensible-browser \"".a:url."\""
@@ -363,93 +210,15 @@ function! OpenURL(url)
   redraw!
 endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
-" open URL under cursor in browser
+" `gb` opens url/word under cursor on browser
 nnoremap gb :OpenURL <cfile><CR>
+" `gA` opens url/word under cursor on Answers dictionary
 nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
+" `gG` opens url/word under cursor on google
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
+" `gW` opens url/word under cursor on wikipedia
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
 
-function! Run()
-  let old_makeprg = &makeprg
-  let old_errorformat = &errorformat
-  try
-    let cmd = matchstr(getline(1),'^#!\zs[^ ]*')
-    if exists('b:run_command')
-      exe b:run_command
-    elseif cmd != '' && executable(cmd)
-      wa
-      let &makeprg = matchstr(getline(1),'^#!\zs.*').' %'
-      make
-    elseif &ft == 'mail' || &ft == 'text' || &ft == 'help' || &ft == 'gitcommit'
-      setlocal spell!
-    elseif exists('b:rails_root') && exists(':Rake')
-      wa
-      Rake
-    elseif &ft == 'cucumber'
-      wa
-      compiler cucumber
-      make %
-    elseif &ft == 'ruby'
-      wa
-      if executable(expand('%:p')) || getline(1) =~ '^#!'
-        compiler ruby
-        let &makeprg = 'ruby'
-        make %
-      elseif expand('%:t') =~ '_test\.rb$'
-        compiler rubyunit
-        let &makeprg = 'ruby'
-        make %
-      elseif expand('%:t') =~ '_spec\.rb$'
-        compiler rspec
-        let &makeprg = 'rspec'
-        make %
-      elseif &makeprg ==# 'bundle'
-        make
-      elseif executable('pry') && exists('b:rake_root')
-        execute '!pry -I"'.b:rake_root.'/lib" -r"%:p"'
-      elseif executable('pry')
-        !pry -r"%:p"
-      else
-        !irb -r"%:p"
-      endif
-    elseif &ft == 'html' || &ft == 'xhtml' || &ft == 'php' || &ft == 'aspvbs' || &ft == 'aspperl'
-      wa
-      if !exists('b:url')
-        call OpenURL(expand('%:p'))
-      else
-        call OpenURL(b:url)
-      endif
-    elseif &ft == 'vim'
-      w
-      unlet! g:loaded_{expand('%:t:r')}
-      return 'source %'
-    elseif &ft == 'sql'
-      1,$DBExecRangeSQL
-    elseif expand('%:e') == 'tex'
-      wa
-      exe "normal :!rubber -f %:r && xdvi %:r >/dev/null 2>/dev/null &\<CR>"
-    elseif &ft == 'dot'
-      let &makeprg = 'dotty'
-      make %
-    else
-      wa
-      if &makeprg =~ '%'
-        make
-      else
-        make %
-      endif
-    endif
-    return ''
-  finally
-    let &makeprg = old_makeprg
-    let &errorformat = old_errorformat
-  endtry
-endfunction
-command! -bar Run :execute Run()
-
-  runtime! plugin/matchit.vim
-  runtime! macros/matchit.vim
-endif
 
 " Section: Mappings {{{1
 " ----------------------
@@ -461,20 +230,24 @@ let maplocalleader = ","
 nnoremap Q :<C-U>q<CR>
 nnoremap Y y$
 if exists(":hohls")
-  nnoremap <silent> <C-L> :nohls<CR><C-L>
-  nmap <silent> ,/ :nohls<CR>
+  nmap <silent> <leader>/ :nohls<CR>
 endif
 inoremap <C-C> <Esc>`^
 nnoremap j gj
 nnoremap k gk
 inoremap jj <ESC>
+" split the lines from cursor to the EOL, sending the second part to the line
+" to the top of the current line
 nnoremap zS r<CR>ddkP=j
+" indents on paste
 nnoremap =p m`=ap``
 nnoremap == ==
 vnoremap <M-<> <gv
 vnoremap <M->> >gv
 vnoremap <Space> I<Space><Esc>gv
-
+" inserts comment at the current line with vim settings
+" ex:
+" " -*- vim -*- vim:set ft=vim et sw=2 sts=2:
 inoremap <C-X>^ <C-R>=substitute(&commentstring,' \=%s\>'," -*- ".&ft." -*- vim:set ft=".&ft." ".(&et?"et":"noet")." sw=".&sw." sts=".&sts.':','')<CR>
 
 " keys on insert mode and command mode
@@ -526,10 +299,6 @@ if !has("gui_running")
   map! <F31> <M-d>
 endif
 
-if has("gui_mac")
-  noremap <C-6> <C-^>
-endif
-
 map <F1> <Esc>
 map! <F1> <Esc>
 if has("gui_running")
@@ -541,8 +310,6 @@ map <F5> :cprev<CR>
 nmap <silent> <F6> :if &previewwindow<Bar>pclose<Bar>elseif exists(':Gstatus')<Bar>exe 'Gstatus'<Bar>else<Bar>ls<Bar>endif<CR>
 nmap <silent> <F7> :if exists(':Glcd')<Bar>exe 'Glcd'<Bar>elseif exists(':Rlcd')<Bar>exe 'Rlcd'<Bar>else<Bar>lcd %:h<Bar>endif<CR>
 map <F8> :wa<Bar>make<CR>
-map <F9> :Run<CR>
-map <silent> <F10> :let tagsfile = tempname()\|silent exe "!ctags -f ".tagsfile." \"%\""\|let &l:tags .= "," . tagsfile\|unlet tagsfile<CR>
 map <silent> <F11> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
 map <C-F4> :bdelete<CR>
 noremap <S-Insert> <MiddleMouse>
@@ -734,26 +501,28 @@ Bundle 'groenewege/vim-less'
 Bundle 'kien/ctrlp.vim'
 Bundle 'L9'
 Bundle 'digitaltoad/vim-jade'
-Bundle 'git://github.com/Raimondi/delimitMate.git'
-Bundle 'git://github.com/edsono/vim-matchit.git'
-Bundle 'git://github.com/fholgado/minibufexpl.vim.git'
-Bundle 'git://github.com/msanders/snipmate.vim.git'
-Bundle 'git://github.com/othree/javascript-syntax.vim.git'
-Bundle 'git://github.com/pangloss/vim-javascript.git'
-Bundle 'git://github.com/scrooloose/nerdcommenter.git'
-Bundle 'git://github.com/sjl/gundo.vim.git'
-Bundle 'git://github.com/thinca/vim-poslist.git'
-Bundle 'git://github.com/thinca/vim-quickrun.git'
-Bundle 'git://github.com/tsaleh/vim-align.git'
-Bundle 'git://github.com/tsaleh/vim-supertab.git'
-Bundle 'git://github.com/vim-scripts/octave.vim--.git'
 Bundle 'nginx.vim'
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'Raimondi/delimitMate'
+Bundle 'edsono/vim-matchit'
+Bundle 'fholgado/minibufexpl.vim'
+Bundle 'msanders/snipmate.vim'
+Bundle 'othree/javascript-syntax.vim'
+Bundle 'pangloss/vim-javascript'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'sjl/gundo.vim'
+Bundle 'thinca/vim-poslist'
+Bundle 'thinca/vim-quickrun'
+Bundle 'tsaleh/vim-align'
+Bundle 'tsaleh/vim-supertab'
+Bundle 'Lokaltog/vim-powerline'
 filetype on
 " Section: Visual {{{1
 " --------------------
 
 " Switch syntax highlighting on, when the terminal has colors
 if (&t_Co > 2 || has("gui_running")) && has("syntax")
+  colorscheme molokai
   function! s:initialize_font()
     if exists("&guifont")
       if has("mac")
@@ -763,7 +532,7 @@ if (&t_Co > 2 || has("gui_running")) && has("syntax")
           set guifont=bitstream\ vera\ sans\ mono\ 11
         endif
       elseif has("win32")
-        set guifont=Consolas:h11,Courier\ New:h10
+        set guifont=DejaVu_Sans_Mono_for_Powerline:h10,Dejavu_Sans_Mono:h11,Courier\ New:h10
       endif
     endif
   endfunction
@@ -778,13 +547,6 @@ if (&t_Co > 2 || has("gui_running")) && has("syntax")
     syntax on
   endif
   set list
-  if !exists('g:colors_name')
-    if filereadable(expand("~/.vim/colors/tim.vim"))
-      colorscheme tim
-    elseif filereadable(expand("~/.vim/colors/tpope.vim"))
-      colorscheme tpope
-    endif
-  endif
 
   augroup RCVisual
     autocmd!
@@ -792,7 +554,7 @@ if (&t_Co > 2 || has("gui_running")) && has("syntax")
     autocmd VimEnter * if !has("gui_running") | set background=dark notitle noicon | endif
     autocmd GUIEnter * set background=light title icon cmdheight=2 lines=25 columns=80 guioptions-=T
     autocmd GUIEnter * if has("diff") && &diff | set columns=165 | endif
-    autocmd GUIEnter * silent! colorscheme vividchalk
+    autocmd GUIEnter * silent! colorscheme molokai
     autocmd GUIEnter * call s:initialize_font()
     autocmd GUIEnter * let $GIT_EDITOR = 'false'
     autocmd Syntax css syn sync minlines=50
@@ -803,14 +565,6 @@ endif
 " }}}1
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
-endif
-
-if exists("FIRSTRUN")
-  exe mkdir(VIMPATH . "/undo")
-  exe mkdir(VIMPATH . "/backup")
-  exe mkdir(VIMPATH . "/tmp")
-  unlet FIRSTRUN
-  exe "BundleInstall"
 endif
 autocmd! bufwritepost .vimrc source ~/.vimrc
 " -*- vim -*- vim:set ft=vim et sw=2 sts=2 tw=78:
