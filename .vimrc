@@ -222,14 +222,14 @@ nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><
 
 " Section: Mappings {{{1
 " ----------------------
-" ctrlp pluggin
-nmap <silent> <leader>b :CtrlPBuffer<CR>
-nmap <silent> <leader>u :CtrlPMRU<CR>
-" -------
 " Leader
 let mapleader = ","
 let maplocalleader = ","
 " ------
+" ctrlp pluggin
+nmap <silent> <leader>b :CtrlPBuffer<CR>
+nmap <silent> <leader>u :CtrlPMRU<CR>
+" -------
 nnoremap Q :<C-U>q<CR>
 nnoremap Y y$
 if exists(":hohls")
