@@ -222,7 +222,10 @@ nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><
 
 " Section: Mappings {{{1
 " ----------------------
-
+" ctrlp pluggin
+nmap <silent> <leader>b :CtrlPBuffer<CR>
+nmap <silent> <leader>u :CtrlPMRU<CR>
+" -------
 " Leader
 let mapleader = ","
 let maplocalleader = ","
@@ -278,7 +281,6 @@ inoremap <up>    <nop>
 inoremap <down>  <nop>
 inoremap <left>  <nop>
 inoremap <right> <nop>
-inoremap <esc>   <nop>
 "-----------------------
 if has("eval")
   command! -buffer -bar -range -nargs=? Slide :exe 'norm m`'|exe '<line1>,<line2>move'.((<q-args> < 0 ? <line1>-1 : <line2>)+(<q-args>=='' ? 1 : <q-args>))|exe 'norm ``'
@@ -332,7 +334,7 @@ map <C--> <C-w>-
 nnoremap <Leader>c mz"dyy"dp`z
 vnoremap <Leader>c "dymz"dP`z
 nnoremap ; :
-nnoremap : ;
+nnoremap ,; ;
 "PHP mappings
 autocmd FileType php noremap L f$l
 autocmd FileType php noremap H F$l
@@ -353,6 +355,7 @@ if has("autocmd")
     autocmd!
 
     autocmd FocusLost * silent! wall
+    autocmd BufNewFile,BufReadPost *.coffee setl sw=2 expandtab
     autocmd FocusGained * if !has('win32') | silent! call fugitive#reload_status() | endif
     autocmd SourcePre */macros/less.vim set laststatus=0 cmdheight=1
     if v:version >= 700 && isdirectory(expand("~/.trash"))
@@ -492,6 +495,7 @@ endif " has("autocmd")
 filetype off
 Bundle 'gmarik/vundle'
 Bundle 'BufClose.vim'
+Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-repeat'
@@ -503,7 +507,6 @@ Bundle 'L9'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'Raimondi/delimitMate'
 Bundle 'edsono/vim-matchit'
-Bundle 'fholgado/minibufexpl.vim'
 Bundle 'msanders/snipmate.vim'
 Bundle 'othree/javascript-syntax.vim'
 Bundle 'pangloss/vim-javascript'
@@ -513,6 +516,7 @@ Bundle 'thinca/vim-poslist'
 Bundle 'thinca/vim-quickrun'
 Bundle 'tsaleh/vim-align'
 Bundle 'tsaleh/vim-supertab'
+Bundle 'kogakure/vim-sparkup'
 Bundle 'Lokaltog/vim-powerline'
 filetype on
 " Section: Visual {{{1
